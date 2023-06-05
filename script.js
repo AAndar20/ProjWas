@@ -21,6 +21,55 @@ fetch('https://api.example.com/temperature') // Beispiel-URL für den REST-Aufru
   })
   .catch(error => console.error(error));
 
+
+  fetch('https://api.example.com/co2')
+  .then(response => response.json())
+  .then(data => {
+    const co2Value = data.co2;
+
+    // Verarbeite den CO2-Wert
+    if (co2Value > 20) {
+      console.log('CO2-Wert:', co2Value);
+      console.log('CO2-Wert ist zu hoch.');
+    } else if (co2Value < 19) {
+      console.log('CO2-Wert:', co2Value);
+      console.log('CO2-Wert ist zu niedrig.');
+    }
+  })
+  .catch(error => console.error(error));
+
+fetch('https://api.example.com/light')
+  .then(response => response.json())
+  .then(data => {
+    const lightValue = data.light;
+
+    // Verarbeite den Lichtwert
+    if (lightValue > 20) {
+      console.log('Lichtwert:', lightValue);
+      console.log('Lichtwert ist zu hoch.');
+    } else if (lightValue < 19) {
+      console.log('Lichtwert:', lightValue);
+      console.log('Lichtwert ist zu niedrig.');
+    }
+  })
+  .catch(error => console.error(error));
+
+fetch('https://api.example.com/humidity')
+  .then(response => response.json())
+  .then(data => {
+    const humidityValue = data.humidity;
+
+    // Verarbeite den Luftfeuchtigkeitswert
+    if (humidityValue > 20) {
+      console.log('Luftfeuchtigkeitswert:', humidityValue);
+      console.log('Luftfeuchtigkeitswert ist zu hoch.');
+    } else if (humidityValue < 19) {
+      console.log('Luftfeuchtigkeitswert:', humidityValue);
+      console.log('Luftfeuchtigkeitswert ist zu niedrig.');
+    }
+  })
+  .catch(error => console.error(error));
+  
   const dialogButton = document.getElementById('dialog-button');
   const myDialog = document.getElementById('my-dialog');
   const closeDialogButton = document.getElementById('close-dialog-button');
