@@ -1,0 +1,17 @@
+body {
+    background-color: black;
+    color: white;
+  }
+  
+  h1 {
+    color: red;
+  }
+  
+  #temperature-text {
+    font-size: 18px;
+  }
+  
+  #temperature-value {
+    font-weight: bold;
+  }
+

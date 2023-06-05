@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ConSensor</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <h1>ConSensor</h1>
+  
+  <div id="data-container">
+    <p>Temperatur: <span id="temperature-value"></span></p>
+    <p>CO2-Gehalt: <span id="co2-value"></span></p>
+    <p>Lichtverhältnisse: <span id="light-value"></span></p>
+    <p>Luftfeuchtigkeit: <span id="humidity-value"></span></p>
+  </div>
+
+  <button id="dialog-button">Öffne Dialog</button>
+
+  <dialog id="my-dialog">
+    <h2>Dialoginhalt</h2>
+    <p>Von: <input type="text" id="from-input"></p>
+    <p>Bis: <input type="text" id="to-input"></p>
+    <button id="create-report-button">Report erstellen</button>
+    <button id="close-dialog-button">Schließen</button>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
