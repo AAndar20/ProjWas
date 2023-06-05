@@ -14,16 +14,217 @@
     <p>Luftfeuchtigkeit: <span id="humidity-value"></span></p>
   </div>
 
-  <button id="dialog-button">Öffne Dialog</button>
+  <button id="dialog-button">Dialog öffnen</button>
 
+  
   <dialog id="my-dialog">
-    <h2>Dialoginhalt</h2>
-    <p>Von: <input type="text" id="from-input"></p>
-    <p>Bis: <input type="text" id="to-input"></p>
+    <h2>Zeit auswählen</h2>
+    <label for="from-input">Von:</label>
+    <input type="time" id="from-input" step="900" value="00:00">
+    <div class="arrow-container">
+      <button onclick="increaseTime('from-input')" class="arrow-button">&#9650;</button>
+      <button onclick="decreaseTime('from-input')" class="arrow-button">&#9660;</button>
+    </div><br><br>
+    <label for="to-input">Bis:</label>
+    <input type="time" id="to-input" step="900" value="00:00">
+    <div class="arrow-container">
+      <button onclick="increaseTime('to-input')" class="arrow-button">&#9650;</button>
+      <button onclick="decreaseTime('to-input')" class="arrow-button">&#9660;</button>
+    </div><br><br>
+    <label for="increment-input">+/- in 5 Minuten:</label>
+    <input type="time" id="increment-input" step="300" value="00:05">
+    <div class="arrow-container">
+      <button onclick="increaseIncrementTime()" class="arrow-button">&#9650;</button>
+      <button onclick="decreaseIncrementTime()" class="arrow-button">&#9660;</button>
+    </div><br><br>
     <button id="create-report-button">Report erstellen</button>
-    <button id="close-dialog-button">Schließen</button>
+    <button id="close-dialog-button">Abbruch</button>
   </dialog>
+  
+  <script>
 
+function increaseTime(inputId) {
+    const input = document.getElementById(inputId);
+    const time = input.value.split(':');
+    let hours = parseInt(time[0]);
+    let minutes = parseInt(time[1]);
+
+    minutes += 15;
+    if (minutes >= 60) {
+      minutes = 0;
+      hours++;
+      if (hours >= 24) {
+        hours = 0;
+      }
+    }
+
+    const updatedTime = padZero(hours) + ':' + padZero(minutes);
+    input.value = updatedTime;
+  }
+
+  function decreaseTime(inputId) {
+    const input = document.getElementById(inputId);
+    const time = input.value.split(':');
+    let hours = parseInt(time[0]);
+    let minutes = parseInt(time[1]);
+
+    minutes -= 15;
+    if (minutes < 0) {
+      minutes = 45;
+      hours--;
+      if (hours < 0) {
+        hours = 23;
+      }
+    }
+
+    const updatedTime = padZero(hours) + ':' + padZero(minutes);
+    input.value = updatedTime;
+  }
+
+  function increaseIncrementTime() {
+    const incrementInput = document.getElementById('increment-input');
+    const incrementTime = incrementInput.value.split(':');
+    let hours = parseInt(incrementTime[0]);
+    let minutes = parseInt(incrementTime[1]);
+
+    minutes += 5;
+    if (minutes >= 60) {
+      minutes = 0;
+      hours++;
+      if (hours >= 24) {
+        hours = 0;
+      }
+    }
+
+    const updatedTime = padZero(hours) + ':' + padZero(minutes);
+    incrementInput.value = updatedTime;
+  }
+
+  function decreaseIncrementTime() {
+    const incrementInput = document.getElementById('increment-input');
+    const incrementTime = incrementInput.value.split(':');
+    let hours = parseInt(incrementTime[0]);
+    let minutes = parseInt(incrementTime[1]);
+
+    minutes -= 5;
+    if (minutes < 0) {
+      minutes = 55;
+      hours--;
+      if (hours < 0) {
+        hours = 23;
+      }
+    }
+
+    const updatedTime = padZero(hours) + ':' + padZero(minutes);
+    incrementInput.value = updatedTime;
+  }
+
+  function increaseTime(inputId) {
+    const input = document.getElementById(inputId);
+    const time = input.value.split(':');
+    let hours = parseInt(time[0]);
+    let minutes = parseInt(time[1]);
+
+    minutes += 15;
+    if (minutes >= 60) {
+      minutes = 0;
+      hours++;
+      if (hours >= 24) {
+        hours = 0;
+      }
+    }
+
+    const updatedTime = padZero(hours) + ':' + padZero(minutes);
+    input.value = updatedTime;
+  }
+
+  function decreaseTime(inputId) {
+    const input = document.getElementById(inputId);
+    const time = input.value.split(':');
+    let hours = parseInt(time[0]);
+    let minutes = parseInt(time[1]);
+
+    minutes -= 15;
+    if (minutes < 0) {
+      minutes = 45;
+      hours--;
+      if (hours < 0) {
+        hours = 23;
+      }
+    }
+
+    const updatedTime = padZero(hours) + ':' + padZero(minutes);
+    input.value = updatedTime;
+  }
+
+  function padZero(value) {
+    return value.toString().padStart(2, '0');
+  }
+
+  const dialogButton = document.getElementById('dialog-button');
+  const myDialog = document.getElementById('my-dialog');
+  const closeDialogButton = document.getElementById('close-dialog-button');
+  const createReportButton = document.getElementById('create-report-button');
+  const fromInput = document.getElementById('from-input');
+  const toInput = document.getElementById('to-input');
+
+  
+
+
+
+
+
+  dialogButton.addEventListener('click', () => {
+    myDialog.showModal();
+  });
+
+  closeDialogButton.addEventListener('click', () => {
+    myDialog.close();
+  });
+
+  createReportButton.addEventListener('click', () => {
+  const fromValue = fromInput.value;
+  const toValue = toInput.value;
+
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = padZero(currentDate.getMonth() + 1);
+  const day = padZero(currentDate.getDate());
+
+  const fromTimestamp = Math.floor(new Date(`${year}-${month}-${day}T${fromValue}`).getTime() / 1000);
+  const toTimestamp = Math.floor(new Date(`${year}-${month}-${day}T${toValue}`).getTime() / 1000);
+
+  // REST-Aufruf mit den Unix-Timestamps
+  const url = `https://api.example.com/reportFromTo?from=${fromTimestamp}&to=${toTimestamp}`;
+
+  fetch(url)
+    .then(response => {
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error('Error');
+      }
+    })
+    .then(data => {
+      alert('PDF Created');
+      console.log('Response Data:', data);
+      // Hier kannst du weitere Aktionen ausführen, wenn der Report erfolgreich erstellt wurde
+    })
+    .catch(error => {
+      alert('Error');
+      console.error('Fehler beim Erstellen des Reports:', error);
+      // Hier kannst du weitere Aktionen ausführen, wenn ein Fehler aufgetreten ist
+    });
+
+  myDialog.close();
+});
+
+</script>
+
+
+  
+
+  
   <script src="script.js"></script>
 </body>
 </html>
